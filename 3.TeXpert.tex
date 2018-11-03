@@ -1,0 +1,151 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{verbatim} % fancy comments
+% refs
+\usepackage{hyperref}
+\hypersetup{pdftex,colorlinks=true,allcolors=red}
+\usepackage{hypcap}
+
+% define the title
+\author{A.~Faraz}
+\title{How to become \TeX{}perts}
+\begin{document}
+% generates the title
+\maketitle
+\tableofcontents
+
+\maketitle
+\pagebreak
+
+\section{Paragraph}
+%\section*{Basics}
+
+\paragraph{}
+This is a new paragraph. \\Here's a new-line! \newline Here's another one!
+
+\paragraph{}
+This is another paragraph.
+
+\paragraph{Paragraph Title}
+This is a paragraph with a title.
+
+\pagebreak
+\section{Commands}
+Layout: \textbackslash command[optional parameter]\{\emph{parameter}\} \\ 
+You can \textsl{lean} on me! \\
+Please, start a new-line here!\newline Thank you!
+
+\paragraph*{Special Chars}\mbox{}\\
+\# \$ \% \^{} \& \_ \{ \} \~{}
+\textbackslash
+
+\pagebreak
+\section{Comments}
+This is % a rather stupid
+% Better: an instructive <----
+an example: ``This will appear% but after the comment won't'
+!''	\newline
+This is another
+%% needs package \usepackage{verbatim}
+\begin{comment}
+	rather stupid,
+	but helpful
+\end{comment}
+example for embedding comments in your document.\footnote[1]{But this one is a footnote!}
+
+\pagebreak
+\section{Environment \& Flush}
+%\paragraph{Environment}
+\flushleft
+\begin{enumerate}
+	\item You can nest the list
+	environments to your taste:
+	\begin{itemize}
+		\item But it might start to
+		look silly.
+		\item[-] With a dash.
+
+	\end{itemize}
+	\item Therefore remember:
+	\begin{description}
+		\item[Stupid] things will not
+		become smart because they are
+		in a list.
+		\item[Smart] things, though,
+		can be presented beautifully
+		in a list.
+	\end{description}
+\end{enumerate}
+
+\paragraph{Flush}
+\begin{itemize}
+	\item \begin{flushleft}
+		This text is\\ left-aligned.
+		\LaTeX{} is not trying to make
+		each line the same length.
+	\end{flushleft}
+	\item \begin{flushright}
+		This text is\\ right-aligned.
+		\LaTeX{} is not trying to make
+		each line the same length.
+	\end{flushright}
+	\item \begin{center}
+		At the center \\ of the earth.
+	\end{center}
+\end{itemize}
+\pagebreak
+\section{Tabular}
+\paragraph{General}
+\begin{center}
+\begin{tabular}{|r|l|}
+	\hline
+	7C0 & hexadecimal \\ \cline{1-1}
+	3700 & octal \\ \cline{2-2}
+	11111000000 & binary \\
+	\hline \hline
+	1984 & decimal \\
+	\hline
+\end{tabular}
+\end{center}
+\mbox{}\\
+\paragraph{Custom Columns}
+\begin{center}
+\begin{tabular}{@{} r @{~~} l @{}}
+	\hline
+	7C0 & hexadecimal \\
+	3700 & octal \\
+	11111000000 & binary \\
+	\hline
+\end{tabular}
+\end{center}
+
+\mbox{}\\
+\paragraph{Multi Column}
+\begin{center}
+\begin{tabular}{|c|c|}
+	\hline
+	\multicolumn{2}{|c|}{States} \\
+	\hline
+	False & True \\
+	\hline
+\end{tabular}
+\end{center}
+
+\mbox{}\\
+\paragraph{Align Around Decimal Point}
+\begin{center}
+	\begin{tabular}{c r @{.} l}
+		Pi expression
+		&
+		\multicolumn{2}{c}{Value} \\
+		\hline
+		$\pi$
+		& 3&1416 \\
+		$\pi^{\pi}$
+		& 36&46
+		\\
+		$(\pi^{\pi})^{\pi}$ & 80662&7 \\
+	\end{tabular}
+\end{center}
+
+
+\end{document}

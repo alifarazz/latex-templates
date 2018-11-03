@@ -1,0 +1,130 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath}
+\usepackage{array} % format tabular by cm
+% define the title
+\usepackage{hyperref}
+\hypersetup{pdftex,colorlinks=true,allcolors=red}
+\usepackage{hypcap}
+\author{A.~Faraz}
+\title{\AmS{} Package}
+\begin{document}
+% generates the title
+\maketitle
+% insert the table of contents
+\tableofcontents
+\pagebreak
+\section{Basics}
+\paragraph{Simple}
+	Add $a$ squared and $b$ squared
+	to get $c$ squared. Or, using
+	a more mathematical approach:
+	$a^2 + b^2 = c^2$
+	
+%tags + label + eqref
+\paragraph{Single-line}
+	Add $a$ squared and $b$ squared
+	to get $c$ squared. Or, using
+	a more mathematical approach
+	\begin{equation}
+	a^2 + b^2 = c^2
+	\end{equation}
+	Einstein says
+	\begin{equation}
+	E = mc^2 \label{clever}
+	\end{equation}
+	He didn’t say
+	\begin{equation}
+	1 + 1 = 3 \tag{dumb}
+	\end{equation}
+	This is a reference to
+	\eqref{clever}.
+
+\paragraph{Without Numbers}
+	Add $a$ squared and $b$ squared
+	to get $c$ squared. Or, using
+	a more mathematical approach
+	\begin{equation*}
+	a^2 + b^2 = c^2
+	\end{equation*}
+	or you can type less for the
+	same effect:
+	\[ a^2 + b^2 = c^2 \]
+	
+\pagebreak
+\section{Formula}
+\paragraph{Sums \& Lim} 
+\mbox{}\\
+This is text style:
+$\lim_{n \to \infty}
+\sum_{k=1}^n \frac{1}{k^2}
+= \frac{\pi^2}{6}$.
+And this is display style:
+\begin{equation}
+\lim_{n \rightarrow \infty}
+\sum_{k=1}^n \frac{1}{k^2}
+= \frac{\pi^2}{6}
+\end{equation}
+
+\paragraph{Matrix}
+\[
+\begin{matrix}
+a & b & c \\
+d & e & f \\
+g & h & i
+\end{matrix}
+\]
+\begin{equation*}
+M = \begin{bmatrix}
+	\frac{5}{6} & \frac{1}{6} & 0           \\[0.3em]
+	\frac{5}{6} & 0           & \frac{1}{6} \\[0.3em]
+	0           & \frac{5}{6} & \frac{1}{6}
+\end{bmatrix}
+\end{equation*}
+\begin{equation*}
+	\begin{matrix}
+		1 & 2 \\
+		3 & 4
+	\end{matrix} \qquad
+	\begin{bmatrix}
+		p_{11} & p_{12} &
+		\ldots
+		& p_{1n} \\
+		p_{21} & p_{22} &
+		\ldots
+		& p_{2n} \\
+		\vdots & \vdots &
+		\ddots
+		& \vdots \\
+		p_{m1} & p_{m2} &
+		\ldots
+		& p_{mn}
+	\end{bmatrix}
+\end{equation*}
+
+\paragraph{Integral}
+\[ F(s) = \int_{0}^{\infty}{f(t)e^{-st}}\,dt \]
+\[ S(x) = \iint f(x).g(y).h(z)\,dy\,dz\]
+\paragraph{Formula + Matrix}
+~
+% h -> here
+% b -> buttom of page
+% t -> top of page
+% p -> on extra page
+% ! -> override(will force specified location)
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{| m{6.1cm} | m{6.1cm} |}
+	\hline
+	\multicolumn{2}{|c|}{laplace}
+	\\
+	\hline
+	\multicolumn{1}{|c|}{$t \rightarrow s$} & \multicolumn{1}{c|}{$s \rightarrow t$} \\
+	\hline
+	$F(s) = \int_{0}^{\infty}{f(t).e^{-st}}\,dt$ &
+	$f(t) = \newline \frac{1}{2 \pi i}\lim_{T \to \infty} \int_{\gamma - iT}^{\gamma + iT} F(s).e^{st}\, ds$ \\
+	\hline  
+	\end{tabular}
+\end{table}
+
+\end{document}
+
