@@ -1,0 +1,177 @@
+\documentclass[12pt]{report}
+
+\usepackage[obeyspaces]{url}
+\usepackage{graphicx}
+\usepackage{xepersian}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[]{verbatim}
+
+
+
+\settextfont[Scale=1]{XB Kayhan}
+\setlatintextfont[Scale=1]{Droid Sans}
+\setdigitfont[Scale=1]{XB Zar}
+
+% Title Page
+\title{فاز اول پروژه:  FreeBSD}
+\author{محمد علی فرزدقی ۹۵۳۲۲۸۴}
+
+
+\begin{document}
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+
+\section{ساختن کرنل}
+\paragraph{دانلود}
+ابتدا از سایت
+\lr{freebsd.org }،
+فایل
+\lr{ .vmdk }
+ که از قبل برای استفاده در
+\lr{  VM}
+   آماده شده را دانلود می‌کنیم و به عنوان یک
+\lr{   Storage Device }
+   به
+\lr{    VM}
+     اضافه می‌کنیم.
+
+
+\paragraph{راه اندازی}
+در ابتدا وقتی به صفحه‌ی بوت رسیدیم، حالت
+\lr{ multi-user }
+ را انتخاب می‌کنیم.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=.7\linewidth]{coffee.jpg}
+		\caption{صفحه‌ی بوت}
+		\label{fig:bootscreen}
+	\end{figure}\\
+بعد از بوت شدن کامل سیستم عامل به عنوان 
+\lr{root }
+لاگین می‌کنیم و پکج 
+\lr{subversion}
+ را نصب می‌کنیم.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=.7\linewidth]{coffee.jpg}
+		\caption{نصب svn}
+		\label{fig:svn_inst}
+	\end{figure}
+	
+	\pagebreak
+	
+	
+\paragraph{دانلود سورس کد ها}
+به پوشه‌ی
+ \path{/usr/src }
+ می‌رویم و با کمک ،
+\lr{subversion}
+  شروع به دانلود سورس کد
+\lr{freebsd}
+    می‌کنیم.
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=.7\linewidth]{coffee.jpg}
+		\caption{دانلود سورس ها}
+		\label{fig:svn_checkout}
+	\end{figure}
+	
+\paragraph{کانفیگ کرنل}
+در فایل
+\path{/usr/src/sys/amd64/conf}
+کانفیگ های کرنل برای معماری \lr{amd64} وجود دارد. ما از کانفیگ پیش فرض 
+\lr{GENERIC}
+ برای بیلد کردن کرنل استفاده می‌کنیم.
+\paragraph{بلید کردن کرنل}
+با صدا زدن \lr{make} دادن پارامتر \lr{buildkernel} به آن، کرنل را با کانفیگ \lr{GENERIC} بیلد می‌کنیم.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=.7\linewidth]{coffee.jpg}
+		\caption{دستور برای کامپایل}
+		\label{fig:compile_kern}
+	\end{figure}
+
+\pagebreak
+
+
+\paragraph{نصب کردن کرنل}
+نصب کردن هم همانند بیلد کردن کرنل است ولی پارامتر فرق می‌کند. به جای \lr{buildkernel}، از \lr{installkernel} استفاده می‌کنیم.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=.7\linewidth]{coffee.jpg}
+		\caption{بعد از نصب موفقیت آمیز}
+		\label{fig:kernel_installed}
+	\end{figure}
+	
+	حال دفعه بعدی که سیستم را روشن می‌کنیم، کرنل کامپایل شده خودمان شروع به بوت شدن می‌کند.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\pagebreak
+\section{تغییر دادن \lr{Priority}}
+\paragraph{پیش نیاز ها}
+در کرنل
+ \lr{freebsd}
+  المانی که پردازش را انجام می‌دهد یک 
+ \lr{thread}
+   است که در غالب یک
+ \lr{lwp}،
+     قسمتی از یک
+ \lr{process}
+      را تشکیل می‌دهد.
+ \paragraph{دستورالعمل تغییر دادن \lr{Priority}}
+ \begin{itemize}
+ 	\item ابتدا با استفاده از 
+	 	\lr{pid} 
+	 	مربوط \lr{process}، خود \lr{process} را پیدا می‌کنیم. فانکشن
+	 	 pfind 
+	 	 مناسب این کار است.
+	 	 \footnote[1]{\path{src/sys/kern/kern_proc.c}~~~~~~~~~~~~\path{src/sys/sys/proc.h}}
+	 	 
+    \item با استفاده از 
+	 	\lr{process} 
+	 	به دست آمده در مرحله قبل،
+	   \lr{thread} 
+	  مربوطه را پیدا می‌کنیم. فانکشن 
+	  find\underline~thread
+	   مناسب این کار است.
+	 	 \footnote[2]{\path{src/sys/kern/kern_thread.c}~~~~~~~~\path{src/sys/sys/proc.h}}
+	 	 
+	\item با استفاده از 
+	 	\lr{thread} 
+	 	به دست آمده در مرحله قبل، می‌توانیم با استفاده از فانکشن
+	 	 setpriority\underline~sys
+	، \lr{priority} مربوط به 
+	\lr{thread} را تغییر بدیهم.
+	 	 \footnote[3]{\path{src/sys/kern/kern_resource.c}~~~~\path{src/sys/sys/sysproto.h}}
+ \end{itemize}
+ 
+ \pagebreak
+ \section{انواع \lr{Prioriy}}
+ هر چه \lr{priority} کمتر باشد، اولویت آن \lr{thread} بیشتر است. در کل ۲ کلاس از \lr{thread} ها وجود دارند، \lr{thread} های \lr{kernel} و \lr{user}.\\
+ در جدول، کل دسته بندی های \lr{prioriy} مربوط به \lr{thread} آمده است. در زمان اجرا کلاس های دسته‌ی بالاتر به کلاس های دسته‌‌ی پایین‌تر ترجیح داده می‌شوند.
+ \lr{\begin{center}
+		 \begin{tabular}{@{~~~~~~~} c @{~~~~~~~} c @{~~~~~~~} l @{~~~~~~}}
+			 \hline
+			 type Thread & Class & Prioriy~~~~\\
+			 (interrupt) kernel buttom-half & ITHD & 47 - 0~~~~~\\
+			 user real-time & REALTIME & 79 - 48~~~\\
+			 kernel top-half & KERN & 119 - 80~~~\\
+			 user time-sharing & TIMESHARE & 223 - 120\\
+			 user idle & IDLE & 255 - 224\\
+			 \hline
+		\end{tabular}
+	\end{center}}
+
+\section{\lr{Prioriy Inheritance}}
+درکل وقتی یکی از دستور های
+ \lr{vfork}، 
+ \lr{fork }
+ یا 
+ \lr{rfork }
+ در کرنل اجرا می‌شوند، \lr{process} ای که حاصل می‌شود \lr{priority} یکسانی با \lr{process} به وجود آورنده اش دارد.
+
+\end{document}          
